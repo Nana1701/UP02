@@ -66,6 +66,10 @@ class Rectangle
         double w = double.Parse(values[1].Split('=')[1]);
         return new Rectangle(l, w);
     }
+    public void Dispose()
+    {
+        Console.WriteLine("Деструктор вызван");
+    }
 }
 
 class Program
@@ -88,6 +92,9 @@ class Program
         Console.WriteLine($"Площадь первого прямоугольника: {rect1.GetArea()}");
         Console.WriteLine($"площадь второго прямоугольника: {rect2.GetArea()}");
 
+        Rectangle intersection = rect1 * rect2;
+        Console.WriteLine($"Пересечение: {intersection}");
+        
         Console.WriteLine($"Сравнение прямоугольников:");
         Console.WriteLine($"первый прямоугольник > второй прямоугольник: {rect1 > rect2}");
         Console.WriteLine($"первый прямоугольник < второй прямоугольник: {rect1 < rect2}");
@@ -98,5 +105,19 @@ class Program
         string rectangleStr = Console.ReadLine();
         Rectangle rectFromString = Rectangle.FromString(rectangleStr);
         Console.WriteLine($"Прямоугольник из строки: {rectFromString}");
+        
+        rect1.Dispose();
+        rect1 = null;
+
+        rect2.Dispose();
+        rect2 = null;
+
+        intersection.Dispose();
+        intersection = null;
+
+        rectFromString.Dispose();
+        rectFromString = null;
+
+        GC.Collect();
     }
 }
